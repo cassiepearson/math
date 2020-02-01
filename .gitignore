@@ -1,0 +1,7 @@
+# Personal
+.DS_Store
+*.todo
+
+# Rust
+/target
+**/*.rs.bk
