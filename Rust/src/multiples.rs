@@ -2,7 +2,7 @@
 // Author: Christopher Negrich
 // Github: cnegrich
 //
-// Sum functions for computing multiples, multiple sums, etc.
+// Some functions for computing multiples, multiple sums, etc.
 
 /// Multiples
 ///
