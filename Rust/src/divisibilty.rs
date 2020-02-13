@@ -124,6 +124,36 @@ fn continued_fraction(mut a: usize, mut b: usize) -> Vec<usize> {
     fraction
 }
 
+/// Prime factorization
+///
+/// Return the prime factorization of the input integer
+fn prime_factorization(mut n: usize) -> Vec<usize> {
+    // Initialize output
+    let mut output: Vec<usize> = vec![];
+
+    // While even, divide out 2
+    while n % 2 == 0 {
+        output.push(2);
+        n /= 2;
+    }
+
+    // Each the odd numbers greater than n
+    let limit: usize = (n as f64).sqrt().floor() as usize;
+    for x in (3..=limit).step_by(2) {
+        while n % x == 0 {
+            output.push(x);
+            n /= x;
+        }
+    }
+
+    if n > 2 {
+        output.push(n);
+    }
+
+    // Return
+    output
+}
+
 // Unit Tests ------------------------------------------------------------------
 #[cfg(test)]
 mod tests {
@@ -176,5 +206,12 @@ mod tests {
         assert_eq!(continued_fraction(19, 43), vec![0, 2, 3, 1, 4]);
         assert_eq!(continued_fraction(7, 3), vec![2, 3]);
         assert_eq!(continued_fraction(3, 7), vec![0, 2, 3]);
+    }
+
+    #[test]
+    fn test_prime_factorization() {
+        assert_eq!(prime_factorization(315), vec![3, 3, 5, 7]);
+        assert_eq!(prime_factorization(3), vec![3]);
+        assert_eq!(prime_factorization(4), vec![2, 2]);
     }
 }
