@@ -154,6 +154,21 @@ fn prime_factorization(mut n: usize) -> Vec<usize> {
     output
 }
 
+/// Euler Totient Function
+///
+/// Return the value of the Euler Totient Function:
+/// http://mathworld.wolfram.com/TotientFunction.html
+fn euler_totient(n: usize) -> usize {
+    // Find all distinct prime factors of n
+    let mut factors = prime_factorization(n);
+    factors.dedup();
+
+    // Compute the product form of the Euler totient function
+    factors.into_iter().fold(n, |acc, x| {
+        ((acc as f64) * (1f64 - (1f64 / (x as f64)))) as usize
+    })
+}
+
 // Unit Tests ------------------------------------------------------------------
 #[cfg(test)]
 mod tests {
@@ -213,5 +228,12 @@ mod tests {
         assert_eq!(prime_factorization(315), vec![3, 3, 5, 7]);
         assert_eq!(prime_factorization(3), vec![3]);
         assert_eq!(prime_factorization(4), vec![2, 2]);
+    }
+
+    #[test]
+    fn test_euler_totient() {
+        assert_eq!(euler_totient(5), 4);
+        assert_eq!(euler_totient(200), 80);
+        assert_eq!(euler_totient(9), 6);
     }
 }
