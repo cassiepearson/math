@@ -1,0 +1,8 @@
+- Trait object implementations for every file
+- Push to remote github
+- Implement check_mul throughout
+- Allow factorial to return errors
+- Allow primality to check input types
+- Allow for any other error returns
+- Use anyhow for errors
+- Benchmark
