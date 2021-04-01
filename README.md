@@ -1,17 +1,8 @@
 # Math Repository
 
-This is a spot for smaller computational math functions that I have written that did not belong in my other repositories.
+This repository contains some mathematical modules that I use in other repositories.
 
-## Rust Math
-
-### Building
-
-To build a binary run:
-
-```
-cargo build                           // Build a debug binary
-cargo build --release                 // Build a realease (optimized) binary
-```
+## Rust
 
 ### Testing
 
@@ -24,16 +15,11 @@ cargo test --release                  // Run all tests in release (optimized) mo
 
 ### Documentation
 
-Rust has an autodocumentation system built in. To see the documentation run:
+Rust has an auto-documentation system built in. To see the documentation run:
 
 ```
 cargo doc --document-private-items --open
 ```
 
-## Mathematica
-
-Coming soon.
-
-## Scheme
-
-Coming soon.
+<!-- ## Citations
+[AKS Primality Test](https://www.cse.iitk.ac.in/users/manindra/algebra/primality_v6.pdf) -->
