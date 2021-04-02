@@ -1,20 +1,24 @@
 //! Factorial Trait
 use crate::number_theory::numbers::Integers;
+use anyhow::{anyhow, Result};
 
 /// Implement the factorial operation
 pub trait Factorial<T = Self> {
-    fn factorial(&self) -> T;
+    fn factorial(&self) -> Result<T>;
 }
 
 impl<T: Integers> Factorial<T> for T {
-    fn factorial(&self) -> T {
+    fn factorial(&self) -> Result<T> {
         let mut i = T::one();
         let mut acc = T::one();
         while i < *self {
             i += T::one();
-            acc *= i;
+            match acc.checked_mul(&i) {
+                Some(new) => acc = new,
+                None => return Err(anyhow!("Factorial failed to successfully compute.")),
+            }
         }
-        acc
+        Ok(acc)
     }
 }
 
@@ -30,7 +34,8 @@ mod tests {
     #[case(4, 24)]
     #[case(11, 39916800)]
     fn usize_factorial_test(#[case] a: usize, #[case] expected: usize) {
-        assert_eq!(expected, a.factorial())
+        // Unwrapping because must test guarantee this will not err on low values
+        assert_eq!(expected, a.factorial().unwrap())
     }
 
     #[rstest]
@@ -40,6 +45,7 @@ mod tests {
     #[case(4, 24)]
     #[case(11, 39916800)]
     fn isize_factorial_test(#[case] a: isize, #[case] expected: isize) {
-        assert_eq!(expected, a.factorial())
+        // Unwrapping because must test guarantee this will not err on low values
+        assert_eq!(expected, a.factorial().unwrap())
     }
 }

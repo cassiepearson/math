@@ -5,6 +5,7 @@ authors = ["Chris Negrich <cnegrich@gmail.com>"]
 edition = "2018"
 
 [dependencies]
+anyhow = "1.0.13"
 rstest = "0.7.0"
 rand = "0.8.3"
 num = "0.4.0"

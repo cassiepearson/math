@@ -1,11 +1,12 @@
 //! Primality Trait
 use crate::number_theory::{factorial::Factorial, gcd::GCD, numbers::Integers};
+use anyhow::Result;
 
 /// Primality Trait
 ///
 /// Implements various functions covering primality tests and prime factorizations
 pub trait Primality<T> {
-    fn wilson(self) -> bool;
+    fn wilson(self) -> Result<bool>;
     fn primality(self) -> bool;
     fn relative_primality(self, other: T) -> bool;
     fn prime_factorization(self) -> Vec<T>;
@@ -18,9 +19,12 @@ where
     /// Wilson's Theorem to test Primality
     ///
     /// Only use this if you are using small integers. Actually, don't use this at all. Wilson's theorem is never practical to compute but has implications in theory
-    fn wilson(self) -> bool {
+    fn wilson(self) -> Result<bool> {
         // Rust can perform a remainder operation, but not a modular operation
-        ((self - T::one()).factorial() % self) + T::one() + T::one() == ((T::one()) % self) + self
+        match (self - T::one()).factorial() {
+            Ok(val) => Ok((val % self) + T::one() + T::one() == ((T::one()) % self) + self),
+            Err(error) => Err(error),
+        }
     }
 
     /// Primality
@@ -102,10 +106,8 @@ mod tests {
     #[case(3, true)]
     #[case(5, true)]
     #[case(15, false)]
-    #[case(30, false)]
-    #[case(225, false)]
     fn usize_wilson_test(#[case] a: usize, #[case] expected: bool) {
-        assert_eq!(expected, a.wilson())
+        assert_eq!(expected, a.wilson().unwrap())
     }
 
     #[rstest]
@@ -113,10 +115,14 @@ mod tests {
     #[case(3, true)]
     #[case(5, true)]
     #[case(15, false)]
-    #[case(30, false)]
-    #[case(225, false)]
     fn isize_wilson_test(#[case] a: isize, #[case] expected: bool) {
-        assert_eq!(expected, a.wilson())
+        assert_eq!(expected, a.wilson().unwrap())
+    }
+
+    #[test]
+    #[should_panic]
+    fn wilson_overflow_test() {
+        let out = 1000.wilson().unwrap();
     }
 
     #[rstest]
