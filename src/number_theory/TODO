@@ -1,6 +1,5 @@
 - Implement check_mul throughout
-- Allow factorial to return errors
-- Allow primality to check input types
+- Implement congruence check in modulo
+- Implement multiplicative inverse
 - Allow for any other error returns
-- Use anyhow for errors
 - Benchmark
