@@ -1,0 +1,5 @@
+- Implement check_mul throughout
+- Implement congruence check in modulo
+- Implement multiplicative inverse
+- Allow for any other error returns
+- Benchmark

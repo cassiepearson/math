@@ -1,23 +1,24 @@
 //! Multiples Functions
-// Author: Christopher Negrich
-// Github: cnegrich
-//
-// Some functions for computing multiples, multiple sums, etc.
+use crate::number_theory::numbers::Integers;
 
 /// Multiples
 ///
 /// Vector of all multiples of the input factors that are strictly below the max value
-fn multiples(factors: Vec<usize>, max: usize) -> Vec<usize> {
-    let mut multiples = factors
-        .into_iter()
-        .flat_map(|factor| {
-            (1..=max / factor)
-                .map(|n| factor * n)
-                .filter(|&result| result < max)
-                .collect::<Vec<usize>>()
-        })
-        .collect::<Vec<usize>>();
-
+fn multiples<T>(factors: Vec<T>, max: T) -> Vec<T>
+where
+    T: Integers,
+{
+    let mut multiples = vec![];
+    for factor in factors {
+        let mut i = T::one();
+        while i <= (max / factor) {
+            let current = factor * i;
+            if current < max {
+                multiples.push(current);
+            }
+            i += T::one();
+        }
+    }
     multiples.sort();
     multiples.dedup();
     multiples
@@ -26,11 +27,17 @@ fn multiples(factors: Vec<usize>, max: usize) -> Vec<usize> {
 /// Sum of multiples
 ///
 /// Sum all multiples of the input factors that are below the max value
-fn sum_of_multiples(factors: Vec<usize>, max: usize) -> usize {
-    multiples(factors, max).into_iter().sum()
+fn sum_of_multiples<T>(factors: Vec<T>, max: T) -> T
+where
+    T: Integers,
+{
+    let mut out = T::zero();
+    for multiple in multiples(factors, max) {
+        out += multiple;
+    }
+    out
 }
 
-// Unit Tests ------------------------------------------------------------------
 #[cfg(test)]
 mod tests {
     use super::*;
