@@ -1,0 +1,26 @@
+name: Rust
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build
+      run: cargo build --verbose
+    - name: Release Build
+      run: cargo build --release
+    - uses: actions/upload-artifact@v2
+      with:
+        name: release-build
+        path: ./target/release/math
