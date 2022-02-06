@@ -7,6 +7,7 @@ macro_rules! impl_multiples {
         /// Multiples
         ///
         /// Vector of all multiples of the input factors that are strictly below the max value
+        #[allow(dead_code)]
         fn multiples<T>(factors: Vec<T>, max: T) -> Vec<T>
         where
             T: $t,
@@ -30,6 +31,7 @@ macro_rules! impl_multiples {
         /// Sum of multiples
         ///
         /// Sum all multiples of the input factors that are below the max value
+        #[allow(dead_code)]
         fn sum_of_multiples<T>(factors: Vec<T>, max: T) -> T
         where
             T: $t,
