@@ -11,8 +11,8 @@ macro_rules! impl_continued_fraction {
             fn continued_frac(self, other: T) -> Vec<T> {
                 // Compute the gcd, store the information on the quotients, build the continued fraction
                 let mut fraction = vec![];
-                let mut i = T::zero();
-                let mut temp = T::zero();
+                let mut i;
+                let mut temp;
                 let mut a = self;
                 let mut b = other;
                 loop {
@@ -21,7 +21,7 @@ macro_rules! impl_continued_fraction {
                     fraction.push(i);
 
                     // Subtract the integer portion of the fraction
-                    a = a - (b * i);
+                    a -= (b * i);
                     if a == T::zero() {
                         break;
                     }

@@ -1,3 +1,8 @@
+#![feature(test)]
+
+extern crate test;
+
+mod general;
 mod number_theory;
 
 fn main() {

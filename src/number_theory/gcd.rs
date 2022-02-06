@@ -4,14 +4,14 @@ use crate::general::numbers::Integer;
 /// Greatest Common Divisor
 ///
 /// This trait contains multiple function implementations of algorithms for finding the greatest common divisor
-pub trait GCD<T> {
+pub trait Gcd<T> {
     fn gcd(self, other: T) -> T;
     fn gcd_subtraction(self, other: T) -> T;
 }
 #[macro_export]
 macro_rules! impl_gcd {
     ($t: ident) => {
-        impl<T> GCD<T> for T
+        impl<T> Gcd<T> for T
         where
             T: $t,
         {
