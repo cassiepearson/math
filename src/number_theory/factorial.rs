@@ -1,5 +1,5 @@
 //! Factorial Trait
-use crate::number_theory::numbers::Integers;
+use crate::general::numbers::Integer;
 use anyhow::{anyhow, Result};
 
 /// Implement the factorial operation
@@ -7,25 +7,34 @@ pub trait Factorial<T = Self> {
     fn factorial(&self) -> Result<T>;
 }
 
-impl<T: Integers> Factorial<T> for T {
-    fn factorial(&self) -> Result<T> {
-        let mut i = T::one();
-        let mut acc = T::one();
-        while i < *self {
-            i += T::one();
-            match acc.checked_mul(&i) {
-                Some(new) => acc = new,
-                None => return Err(anyhow!("Factorial failed to successfully compute.")),
+#[macro_export]
+macro_rules! impl_factorial {
+    ($t: ident) => {
+        impl<T: $t> Factorial<T> for T {
+            #[inline]
+            fn factorial(&self) -> Result<T> {
+                let mut i = T::one();
+                let mut acc = T::one();
+                while i < *self {
+                    i += T::one();
+                    match acc.checked_mul(&i) {
+                        Some(new) => acc = new,
+                        None => return Err(anyhow!("Factorial failed to successfully compute.")),
+                    }
+                }
+                Ok(acc)
             }
         }
-        Ok(acc)
-    }
+    };
 }
+
+impl_factorial!(Integer);
 
 #[cfg(test)]
 mod tests {
     use super::*;
     use rstest::rstest;
+    use test::test::Bencher;
 
     #[rstest]
     #[case(1, 1)]
@@ -36,6 +45,14 @@ mod tests {
     fn usize_factorial_test(#[case] a: usize, #[case] expected: usize) {
         // Unwrapping because must test guarantee this will not err on low values
         assert_eq!(expected, a.factorial().unwrap())
+    }
+
+    #[bench]
+    fn bench_factorial(b: &mut Bencher) {
+        b.iter(|| {
+            let n = test::black_box(12i32);
+            (0..n).fold(0, |a, b| b.factorial().unwrap());
+        });
     }
 
     #[rstest]

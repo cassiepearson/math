@@ -1,5 +1,6 @@
 //! Greatest Common Divisor Trait
-use crate::number_theory::numbers::Integers;
+use crate::general::numbers::Integer;
+
 /// Greatest Common Divisor
 ///
 /// This trait contains multiple function implementations of algorithms for finding the greatest common divisor
@@ -7,45 +8,50 @@ pub trait GCD<T> {
     fn gcd(self, other: T) -> T;
     fn gcd_subtraction(self, other: T) -> T;
 }
+#[macro_export]
+macro_rules! impl_gcd {
+    ($t: ident) => {
+        impl<T> GCD<T> for T
+        where
+            T: $t,
+        {
+            /// Greatest Commmon Divisor
+            ///
+            /// Find the GCD of two numbers using Euclidean division (Euclidean algorithm standard form)
+            fn gcd(self, other: T) -> T {
+                let mut a = self;
+                let mut b = other;
+                while b != T::zero() {
+                    let temp = b;
+                    b = a % b;
+                    a = temp;
+                }
 
-impl<T> GCD<T> for T
-where
-    T: Integers,
-{
-    /// Greatest Commmon Divisor
-    ///
-    /// Find the GCD of two numbers using Euclidean division (Euclidean algorithm standard form)
-    fn gcd(self, other: T) -> T {
-        let mut a = self;
-        let mut b = other;
-        while b != T::zero() {
-            let temp = b;
-            b = a % b;
-            a = temp;
-        }
+                // Return a
+                a
+            }
 
-        // Return a
-        a
-    }
+            /// Greatest Commmon Divisor
+            ///
+            /// Find the GCD of two numbers using a subtraction based method
+            fn gcd_subtraction(self, other: T) -> T {
+                let mut a = self;
+                let mut b = other;
+                while a != b {
+                    if a > b {
+                        a -= b;
+                    } else {
+                        b -= a;
+                    }
+                }
 
-    /// Greatest Commmon Divisor
-    ///
-    /// Find the GCD of two numbers using a subtraction based method
-    fn gcd_subtraction(self, other: T) -> T {
-        let mut a = self;
-        let mut b = other;
-        while a != b {
-            if a > b {
-                a -= b;
-            } else {
-                b -= a;
+                // Return a
+                a
             }
         }
-
-        // Return a
-        a
-    }
+    };
 }
+impl_gcd!(Integer);
 
 #[cfg(test)]
 mod tests {

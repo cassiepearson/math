@@ -4,6 +4,5 @@ pub mod factorial;
 pub mod gcd;
 pub mod modulus;
 pub mod multiples;
-pub mod numbers;
 pub mod parity;
 pub mod primality;
