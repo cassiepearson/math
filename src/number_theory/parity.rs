@@ -1,41 +1,52 @@
 //! Parity Trait
-use crate::number_theory::numbers::Integers;
+use crate::general::numbers::Integer;
 
 /// Implement parity checking
 pub trait Parity<T> {
-    fn parity(self) -> String;
+    fn parity(self) -> NumParity;
     fn is_odd(self) -> bool;
     fn is_even(self) -> bool;
 }
 
-impl<T> Parity<T> for T
-where
-    T: Integers,
-{
-    fn parity(self) -> String {
-        if self.is_even() {
-            "even".to_string()
-        } else {
-            "odd".to_string()
-        }
-    }
-
-    fn is_odd(self) -> bool {
-        if self % (T::one() + T::one()) != T::zero() {
-            true
-        } else {
-            false
-        }
-    }
-
-    fn is_even(self) -> bool {
-        if self % (T::one() + T::one()) == T::zero() {
-            true
-        } else {
-            false
-        }
-    }
+pub enum NumParity {
+    Even,
+    Odd,
 }
+
+#[macro_export]
+macro_rules! impl_parity {
+    ($t: ident) => {
+        impl<T> Parity<T> for T
+        where
+            T: $t,
+        {
+            fn parity(self) -> NumParity {
+                if self.is_even() {
+                    NumParity::Even
+                } else {
+                    NumParity::Odd
+                }
+            }
+
+            fn is_odd(self) -> bool {
+                if self % (T::one() + T::one()) != T::zero() {
+                    true
+                } else {
+                    false
+                }
+            }
+
+            fn is_even(self) -> bool {
+                if self % (T::one() + T::one()) == T::zero() {
+                    true
+                } else {
+                    false
+                }
+            }
+        }
+    };
+}
+impl_parity!(Integer);
 
 #[cfg(test)]
 mod tests {

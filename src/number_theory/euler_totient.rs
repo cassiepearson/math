@@ -1,52 +1,57 @@
 //! Euler Totient Trait
-use crate::number_theory::{numbers::Integers, primality::Primality};
+use crate::{general::numbers::Integer, number_theory::{primality::Primality}};
 
 /// Euler Totient Function
 ///
 /// Return the value of the Euler Totient Function:
 /// http://mathworld.wolfram.com/TotientFunction.html
-pub trait EulerTotient<T> {
+pub trait EulTotient<T> {
     fn euler_totient(self) -> T;
     fn primality_checked_euler_totient(self) -> T;
 }
 
-impl<T> EulerTotient<T> for T
-where
-    T: Integers,
+#[macro_export]
+macro_rules! impl_totient {
+    ($t: ident) => {
+        impl<T: $t> EulTotient<T> for T
 {
-    fn euler_totient(self) -> T {
-        let one = T::one();
-        let mut count = T::zero();
-        let mut i = one;
-        while i < self {
-            if self.relative_primality(i) {
-                count += one;
-            }
-            i += one;
-        }
-        count
-    }
-
-    /// Standard Euler totient but after a primality check for the trivial case
-    ///
-    /// Results will be the same as for the standard totient, but I was curious about benchmarking for when primes may exist in the checked set of numbers
-    fn primality_checked_euler_totient(self) -> T {
-        let one = T::one();
-        if self.primality() {
-            self - one
-        } else {
-            let mut count = T::zero();
-            let mut i = one;
-            while i < self {
-                if self.relative_primality(i) {
-                    count += one;
+            fn euler_totient(self) -> T {
+                let one = T::one();
+                let mut count = T::zero();
+                let mut i = one;
+                while i < self {
+                    if self.relative_primality(i) {
+                        count += one;
+                    }
+                    i += one;
                 }
-                i += one;
+                count
             }
-            count
+
+            /// Standard Euler totient but after a primality check for the trivial case
+            ///
+            /// Results will be the same as for the standard totient, but I was curious about benchmarking for when primes may exist in the checked set of numbers
+            fn primality_checked_euler_totient(self) -> T {
+                let one = T::one();
+                if self.primality() {
+                    self - one
+                } else {
+                    let mut count = T::zero();
+                    let mut i = one;
+                    while i < self {
+                        if self.relative_primality(i) {
+                            count += one;
+                        }
+                        i += one;
+                    }
+                    count
+                }
+            }
         }
     }
 }
+
+impl_totient!(Integer);
 
 #[cfg(test)]
 mod tests {

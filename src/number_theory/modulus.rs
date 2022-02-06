@@ -1,6 +1,5 @@
-///! Modulus Trait
-// Rust can perform the remainder operation, but not a modulus congruence operation
-use crate::number_theory::numbers::Integers;
+//! Modulus operation trait
+use crate::general::numbers::Integer;
 
 /// Implement the modulo operation
 ///
@@ -13,16 +12,22 @@ pub trait Modulus<T> {
     // fn is_congruent_modulus(self, b: T) -> bool;
 }
 
-impl<T> Modulus<T> for T
-where
-    T: Integers,
-{
-    fn modulus(self, b: T) -> T {
-        (self % b) + b
-    }
+#[macro_export]
+macro_rules! impl_mod {
+    ($t: ident) => {
+        impl<T> Modulus<T> for T
+        where
+            T: $t,
+        {
+            fn modulus(self, b: T) -> T {
+                (self % b) + b
+            }
 
-    // fn is_congruent_modulus(self, b: T) -> bool {}
+            // fn is_congruent_modulus(self, b: T) -> bool {}
+        }
+    };
 }
+impl_mod!(Integer);
 
 #[cfg(test)]
 mod tests {

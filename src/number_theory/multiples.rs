@@ -1,42 +1,49 @@
 //! Multiples Functions
-use crate::number_theory::numbers::Integers;
+use crate::general::numbers::Integer;
 
-/// Multiples
-///
-/// Vector of all multiples of the input factors that are strictly below the max value
-fn multiples<T>(factors: Vec<T>, max: T) -> Vec<T>
-where
-    T: Integers,
-{
-    let mut multiples = vec![];
-    for factor in factors {
-        let mut i = T::one();
-        while i <= (max / factor) {
-            let current = factor * i;
-            if current < max {
-                multiples.push(current);
+#[macro_export]
+macro_rules! impl_multiples {
+    ($t: ident) => {
+        /// Multiples
+        ///
+        /// Vector of all multiples of the input factors that are strictly below the max value
+        fn multiples<T>(factors: Vec<T>, max: T) -> Vec<T>
+        where
+            T: $t,
+        {
+            let mut multiples = vec![];
+            for factor in factors {
+                let mut i = T::one();
+                while i <= (max / factor) {
+                    let current = factor * i;
+                    if current < max {
+                        multiples.push(current);
+                    }
+                    i += T::one();
+                }
             }
-            i += T::one();
+            multiples.sort();
+            multiples.dedup();
+            multiples
         }
-    }
-    multiples.sort();
-    multiples.dedup();
-    multiples
+
+        /// Sum of multiples
+        ///
+        /// Sum all multiples of the input factors that are below the max value
+        fn sum_of_multiples<T>(factors: Vec<T>, max: T) -> T
+        where
+            T: $t,
+        {
+            let mut out = T::zero();
+            for multiple in multiples(factors, max) {
+                out += multiple;
+            }
+            out
+        }
+    };
 }
 
-/// Sum of multiples
-///
-/// Sum all multiples of the input factors that are below the max value
-fn sum_of_multiples<T>(factors: Vec<T>, max: T) -> T
-where
-    T: Integers,
-{
-    let mut out = T::zero();
-    for multiple in multiples(factors, max) {
-        out += multiple;
-    }
-    out
-}
+impl_multiples!(Integer);
 
 #[cfg(test)]
 mod tests {

@@ -1,45 +1,45 @@
-//! Continued Fraction Trait
-use crate::number_theory::numbers::Integers;
+use crate::general::numbers::Integer;
 
-/// Determines a continued fraction from a simple fraction
-///
-/// Find the continued fraction, print in standard notation, return as a vector
 pub trait ContinuedFraction<T> {
-    fn continued_fraction(self, other: T) -> Vec<T>;
+    fn continued_frac(self, other: T) -> Vec<T>;
 }
 
-impl<T> ContinuedFraction<T> for T
-where
-    T: Integers,
-{
-    fn continued_fraction(self, other: T) -> Vec<T> {
-        // Compute the gcd, store the information on the quotients, build the continued fraction
-        let mut fraction = vec![];
-        let mut i = T::zero();
-        let mut temp = T::zero();
-        let mut a = self;
-        let mut b = other;
-        loop {
-            // Find the integer portion of the fraction
-            i = a / b;
-            fraction.push(i);
+#[macro_export]
+macro_rules! impl_continued_fraction {
+    ($t: ident) => {
+        impl<T: $t> ContinuedFraction<T> for T {
+            fn continued_frac(self, other: T) -> Vec<T> {
+                // Compute the gcd, store the information on the quotients, build the continued fraction
+                let mut fraction = vec![];
+                let mut i = T::zero();
+                let mut temp = T::zero();
+                let mut a = self;
+                let mut b = other;
+                loop {
+                    // Find the integer portion of the fraction
+                    i = a / b;
+                    fraction.push(i);
 
-            // Subtract the integer portion of the fraction
-            a = a - (b * i);
-            if a == T::zero() {
-                break;
+                    // Subtract the integer portion of the fraction
+                    a = a - (b * i);
+                    if a == T::zero() {
+                        break;
+                    }
+
+                    // Take the reciprocal of the fraction
+                    temp = b;
+                    b = a;
+                    a = temp;
+                }
+
+                // Return continued fraction to the user
+                fraction
             }
-
-            // Take the reciprocal of the fraction
-            temp = b;
-            b = a;
-            a = temp;
         }
-
-        // Return continued fraction to the user
-        fraction
-    }
+    };
 }
+
+impl_continued_fraction!(Integer);
 
 #[cfg(test)]
 mod tests {
@@ -57,7 +57,7 @@ mod tests {
         #[case] b: usize,
         #[case] expected: Vec<usize>,
     ) {
-        assert_eq!(expected, a.continued_fraction(b))
+        assert_eq!(expected, a.continued_frac(b))
     }
 
     #[rstest]
@@ -71,6 +71,6 @@ mod tests {
         #[case] b: isize,
         #[case] expected: Vec<isize>,
     ) {
-        assert_eq!(expected, a.continued_fraction(b))
+        assert_eq!(expected, a.continued_frac(b))
     }
 }
