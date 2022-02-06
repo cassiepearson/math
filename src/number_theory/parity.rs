@@ -3,9 +3,9 @@ use crate::general::numbers::Integer;
 
 /// Implement parity checking
 pub trait Parity<T> {
-    fn parity(self) -> NumParity;
-    fn is_odd(self) -> bool;
-    fn is_even(self) -> bool;
+    fn parity(&self) -> NumParity;
+    fn is_odd(&self) -> bool;
+    fn is_even(&self) -> bool;
 }
 
 pub enum NumParity {
@@ -20,7 +20,7 @@ macro_rules! impl_parity {
         where
             T: $t,
         {
-            fn parity(self) -> NumParity {
+            fn parity(&self) -> NumParity {
                 if self.is_even() {
                     NumParity::Even
                 } else {
@@ -28,16 +28,16 @@ macro_rules! impl_parity {
                 }
             }
 
-            fn is_odd(self) -> bool {
-                if self % (T::one() + T::one()) != T::zero() {
+            fn is_odd(&self) -> bool {
+                if *self % (T::one() + T::one()) != T::zero() {
                     true
                 } else {
                     false
                 }
             }
 
-            fn is_even(self) -> bool {
-                if self % (T::one() + T::one()) == T::zero() {
+            fn is_even(&self) -> bool {
+                if *self % (T::one() + T::one()) == T::zero() {
                     true
                 } else {
                     false
