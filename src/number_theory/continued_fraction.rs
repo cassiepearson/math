@@ -21,7 +21,7 @@ macro_rules! impl_continued_fraction {
                     fraction.push(i);
 
                     // Subtract the integer portion of the fraction
-                    a = a - (b * i);
+                    a -= (b * i);
                     if a == T::zero() {
                         break;
                     }

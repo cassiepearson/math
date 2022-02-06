@@ -1,7 +1,7 @@
 //! Primality Trait
 use crate::{
     general::numbers::Integer,
-    number_theory::{factorial::Factorial, gcd::GCD},
+    number_theory::{factorial::Factorial, gcd::Gcd},
 };
 use anyhow::Result;
 
