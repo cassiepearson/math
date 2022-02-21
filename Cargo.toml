@@ -4,6 +4,14 @@ version = "0.1.0"
 authors = ["Chris Negrich <cnegrich@gmail.com>"]
 edition = "2018"
 
+[[bin]]
+name = "math"
+path = "src/main.rs"
+
+[lib]
+name = "mathematics"
+path = "src/lib.rs"
+
 [dependencies]
 anyhow = "1.0.13"
 rstest = "0.7.0"

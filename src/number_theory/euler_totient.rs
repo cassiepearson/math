@@ -5,7 +5,7 @@ use crate::{general::numbers::Integer, number_theory::primality::Primality};
 ///
 /// Return the value of the Euler Totient Function:
 /// http://mathworld.wolfram.com/TotientFunction.html
-pub trait EulTotient<T> {
+pub trait EulerTotient<T> {
     fn euler_totient(self) -> T;
     fn primality_checked_euler_totient(self) -> T;
 }
@@ -13,7 +13,7 @@ pub trait EulTotient<T> {
 #[macro_export]
 macro_rules! impl_totient {
     ($t: ident) => {
-        impl<T: $t> EulTotient<T> for T {
+        impl<T: $t> EulerTotient<T> for T {
             fn euler_totient(self) -> T {
                 let one = T::one();
                 let mut count = T::zero();

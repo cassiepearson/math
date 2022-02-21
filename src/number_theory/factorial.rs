@@ -34,7 +34,6 @@ impl_factorial!(Integer);
 mod tests {
     use super::*;
     use rstest::rstest;
-    use test::test::Bencher;
 
     #[rstest]
     #[case(1, 1)]
@@ -45,14 +44,6 @@ mod tests {
     fn usize_factorial_test(#[case] a: usize, #[case] expected: usize) {
         // Unwrapping because must test guarantee this will not err on low values
         assert_eq!(expected, a.factorial().unwrap())
-    }
-
-    #[bench]
-    fn bench_factorial(b: &mut Bencher) {
-        b.iter(|| {
-            let n = test::black_box(12i32);
-            (0..n).fold(0, |a, b| b.factorial().unwrap());
-        });
     }
 
     #[rstest]
