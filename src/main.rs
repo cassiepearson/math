@@ -1,6 +1,10 @@
 mod general;
 mod number_theory;
 
+use git_version::git_version;
+
+const GIT_VERSION: &str = git_version!();
+
 fn main() {
-    println!("TODO: Put a CLI here using clap. Have it run benchmarks.");
+    println!("Version: {:?}", GIT_VERSION);
 }
