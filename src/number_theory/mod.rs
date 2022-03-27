@@ -1,4 +1,5 @@
 pub mod continued_fraction;
+pub mod euclidean_algs;
 pub mod euler_totient;
 pub mod factorial;
 pub mod gcd;
