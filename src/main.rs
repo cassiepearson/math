@@ -1,3 +1,4 @@
+mod errors;
 mod general;
 mod number_theory;
 
