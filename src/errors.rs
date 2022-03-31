@@ -3,6 +3,7 @@
 /// Errors enumeration
 ///
 /// Lists all possible errors that can occur during the execution of the program
+#[allow(dead_code)]
 enum LibraryError {
     InvalidOperation(String),
     InvalidNumber(String),
