@@ -1,6 +1,8 @@
 //! Factorial Trait
-use crate::general::numbers::Integer;
-use anyhow::{anyhow, Result};
+use crate::general::{errors::MathLibError, numbers::Integer};
+use std::fmt::Display;
+
+type Result<T> = std::result::Result<T, MathLibError>;
 
 /// Implement the factorial operation
 pub trait Factorial<T = Self> {
@@ -10,7 +12,7 @@ pub trait Factorial<T = Self> {
 #[macro_export]
 macro_rules! impl_factorial {
     ($t: ident) => {
-        impl<T: $t> Factorial<T> for T {
+        impl<T: $t + Display> Factorial<T> for T {
             #[inline]
             fn factorial(&self) -> Result<T> {
                 let mut i = T::one();
@@ -19,7 +21,12 @@ macro_rules! impl_factorial {
                     i += T::one();
                     match acc.checked_mul(&i) {
                         Some(new) => acc = new,
-                        None => return Err(anyhow!("Factorial failed to successfully compute.")),
+                        None => {
+                            return Err(MathLibError::NumberTheoryErr(format!(
+                                "Factorial overflow at: {}",
+                                acc
+                            )))
+                        }
                     }
                 }
                 Ok(acc)
@@ -35,23 +42,32 @@ mod tests {
     use super::*;
     use rstest::rstest;
 
-    #[rstest]
-    #[case(1, 1)]
-    #[case(2, 2)]
-    #[case(3, 6)]
-    #[case(4, 24)]
-    #[case(11, 39916800)]
+    #[rstest(
+        case::one(1, 1),
+        case::two(2, 2),
+        case::three(3, 6),
+        case::four(4, 24),
+        case::eleven(11, 39916800),
+        case::twelve(12, 479001600),
+        case::thirteen(13, 6227020800),
+        #[should_panic]
+        case::fourteen(14, 14302774849602060)
+    )]
     fn usize_factorial_test(#[case] a: usize, #[case] expected: usize) {
-        // Unwrapping because must test guarantee this will not err on low values
         assert_eq!(expected, a.factorial().unwrap())
     }
 
-    #[rstest]
-    #[case(1, 1)]
-    #[case(2, 2)]
-    #[case(3, 6)]
-    #[case(4, 24)]
-    #[case(11, 39916800)]
+    #[rstest(
+        case::one(1, 1),
+        case::two(2, 2),
+        case::three(3, 6),
+        case::four(4, 24),
+        case::eleven(11, 39916800),
+        case::twelve(12, 479001600),
+        case::thirteen(13, 6227020800),
+        #[should_panic]
+        case::fourteen(14, 14302774849602060)
+    )]
     fn isize_factorial_test(#[case] a: isize, #[case] expected: isize) {
         // Unwrapping because must test guarantee this will not err on low values
         assert_eq!(expected, a.factorial().unwrap())
