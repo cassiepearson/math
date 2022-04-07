@@ -1,6 +1,6 @@
 # Math Repository
 
-This repository contains some mathematical modules that I use in other repositories.
+Each module has its own README with details on what it does. This repository is a collection of various computational math that I have played around with.
 
 ## Rust
 
