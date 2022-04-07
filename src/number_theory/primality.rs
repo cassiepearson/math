@@ -131,8 +131,8 @@ mod tests {
     use rstest::rstest;
 
     #[rstest(
-        case::prime_1(2, true), 
-        case::prime_2(3, true), 
+        case::prime_1(2, true),
+        case::prime_2(3, true),
         case::prime_3(5, true),
         case::non_prime_1(15, false),
         case::non_prime_2(4, false),
@@ -147,8 +147,8 @@ mod tests {
     }
 
     #[rstest(
-        case::prime_1(2, true), 
-        case::prime_2(3, true), 
+        case::prime_1(2, true),
+        case::prime_2(3, true),
         case::prime_3(5, true),
         case::non_prime_1(15, false),
         case::non_prime_2(4, false),
