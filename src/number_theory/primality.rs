@@ -1,11 +1,11 @@
 //! Primality Trait
 use crate::{
-    general::{errors::MathLibError, numbers::Integer},
+    general::{errors::NumberTheoryErr, numbers::Integer},
     number_theory::{factorial::Factorial, gcd::Gcd},
 };
 use std::fmt::Display;
 
-type Result<T> = std::result::Result<T, MathLibError>;
+type Result<T> = std::result::Result<T, NumberTheoryErr>;
 
 /// Primality Trait
 ///
@@ -24,7 +24,7 @@ pub trait WilsonsPrimality<T> {
 }
 
 #[macro_export]
-macro_rules! impl_primality {
+macro_rules! primality {
     ($t: ident) => {
         impl<T> Primality<T> for T
         where
@@ -102,7 +102,7 @@ macro_rules! impl_primality {
 }
 
 #[macro_export]
-macro_rules! impl_wilsons_primality {
+macro_rules! wilsons_primality {
     ($t: ident) => {
         impl<T> WilsonsPrimality<T> for T
         where
@@ -122,9 +122,8 @@ macro_rules! impl_wilsons_primality {
     };
 }
 
-impl_primality!(Integer);
-impl_wilsons_primality!(Integer);
-
+primality!(Integer);
+wilsons_primality!(Integer);
 #[cfg(test)]
 mod tests {
     use super::*;

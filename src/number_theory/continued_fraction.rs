@@ -1,11 +1,16 @@
 use crate::general::numbers::Integer;
 
+/// Generalized Continued Fraction
+///
+/// Returns the set of integer parts of the continued fraction
+/// https://en.wikipedia.org/wiki/Continued_fraction
+/// https://mathworld.wolfram.com/ContinuedFraction.html
 pub trait ContinuedFraction<T> {
     fn continued_frac(self, other: T) -> Vec<T>;
 }
 
 #[macro_export]
-macro_rules! impl_continued_fraction {
+macro_rules! continued_fraction {
     ($t: ident) => {
         impl<T: $t> ContinuedFraction<T> for T {
             fn continued_frac(self, other: T) -> Vec<T> {
@@ -39,7 +44,7 @@ macro_rules! impl_continued_fraction {
     };
 }
 
-impl_continued_fraction!(Integer);
+continued_fraction!(Integer);
 
 #[cfg(test)]
 mod tests {

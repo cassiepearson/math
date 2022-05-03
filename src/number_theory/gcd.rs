@@ -9,7 +9,7 @@ pub trait Gcd<T> {
     fn gcd_subtraction(self, other: T) -> T;
 }
 #[macro_export]
-macro_rules! impl_gcd {
+macro_rules! gcd {
     ($t: ident) => {
         impl<T> Gcd<T> for T
         where
@@ -51,7 +51,7 @@ macro_rules! impl_gcd {
         }
     };
 }
-impl_gcd!(Integer);
+gcd!(Integer);
 
 #[cfg(test)]
 mod tests {

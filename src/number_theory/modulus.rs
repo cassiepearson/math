@@ -13,7 +13,7 @@ pub trait Modulus<T> {
 }
 
 #[macro_export]
-macro_rules! impl_mod {
+macro_rules! modulus {
     ($t: ident) => {
         impl<T> Modulus<T> for T
         where
@@ -27,7 +27,7 @@ macro_rules! impl_mod {
         }
     };
 }
-impl_mod!(Integer);
+modulus!(Integer);
 
 #[cfg(test)]
 mod tests {
