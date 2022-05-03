@@ -1,3 +1,4 @@
+mod cryptography;
 mod general;
 mod number_theory;
 
