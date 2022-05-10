@@ -34,6 +34,8 @@ macro_rules! euclidean {
     };
 }
 
+// TODO: Return a result from extended to account for overflow on subtraction (usize will likely overflow)
+
 /// Extended Euclidean algorithm
 ///
 /// Solves the equation ax + by = gcd(a, b) for x,y given a,b. Bezout's lemma guarantees solvability and x,y are called Bezout's coefficients.
