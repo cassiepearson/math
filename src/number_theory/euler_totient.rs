@@ -1,4 +1,5 @@
 //! Euler Totient Trait
+
 use crate::{general::numbers::Integer, number_theory::primality::Primality};
 
 /// Euler Totient Function
@@ -11,7 +12,7 @@ pub trait EulerTotient<T> {
 }
 
 #[macro_export]
-macro_rules! impl_totient {
+macro_rules! euler_totient {
     ($t: ident) => {
         impl<T: $t> EulerTotient<T> for T {
             fn euler_totient(self) -> T {
@@ -50,7 +51,7 @@ macro_rules! impl_totient {
     };
 }
 
-impl_totient!(Integer);
+euler_totient!(Integer);
 
 #[cfg(test)]
 mod tests {

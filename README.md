@@ -1,8 +1,10 @@
-# Math Repository
+# Computational Math Repository
 
-Each module has its own README with details on what it does. This repository is a collection of various computational math that I have played around with.
+Each module has its own README with details on what it does.
 
-## Rust
+## Methods
+
+The math modules, such as the number_theory module, define a set of structures and/or traits using macro invocations. This is done to allow different supertraits to be defined and the traits to be bound by them. This will allow the supertraits to be changed but the same implementations used. For instance, switching between different integer and floating point supertrait bounds or changing the supertrait to only capture unsigned integers.
 
 ### Testing
 

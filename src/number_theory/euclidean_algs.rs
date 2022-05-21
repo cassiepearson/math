@@ -7,8 +7,9 @@ use crate::general::numbers::Integer;
 pub trait Euclidean<T> {
     fn euclidean(self, other: T) -> T;
 }
+
 #[macro_export]
-macro_rules! impl_euclidean {
+macro_rules! euclidean {
     ($t: ident) => {
         impl<T> Euclidean<T> for T
         where
@@ -33,6 +34,8 @@ macro_rules! impl_euclidean {
     };
 }
 
+// TODO: Return a result from extended to account for overflow on subtraction (usize will likely overflow)
+
 /// Extended Euclidean algorithm
 ///
 /// Solves the equation ax + by = gcd(a, b) for x,y given a,b. Bezout's lemma guarantees solvability and x,y are called Bezout's coefficients.
@@ -41,8 +44,9 @@ pub trait ExtendedEuclidean<T> {
     fn egcd(self, other: T) -> (T, T, T);
     fn bezout(self, other: T) -> (T, T);
 }
+
 #[macro_export]
-macro_rules! impl_extended_euclidean {
+macro_rules! extended_euclidean {
     ($t: ident) => {
         impl<T> ExtendedEuclidean<T> for T
         where
@@ -93,9 +97,9 @@ macro_rules! impl_extended_euclidean {
         }
     };
 }
-impl_euclidean!(Integer);
-impl_extended_euclidean!(Integer);
 
+euclidean!(Integer);
+extended_euclidean!(Integer);
 #[cfg(test)]
 mod tests {
     use super::*;

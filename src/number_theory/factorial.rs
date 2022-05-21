@@ -1,8 +1,8 @@
 //! Factorial Trait
-use crate::general::{errors::MathLibError, numbers::Integer};
+use crate::general::{errors::NumberTheoryErr, numbers::Integer};
 use std::fmt::Display;
 
-type Result<T> = std::result::Result<T, MathLibError>;
+type Result<T> = std::result::Result<T, NumberTheoryErr>;
 
 /// Implement the factorial operation
 pub trait Factorial<T = Self> {
@@ -10,7 +10,7 @@ pub trait Factorial<T = Self> {
 }
 
 #[macro_export]
-macro_rules! impl_factorial {
+macro_rules! factorial {
     ($t: ident) => {
         impl<T: $t + Display> Factorial<T> for T {
             #[inline]
@@ -22,7 +22,7 @@ macro_rules! impl_factorial {
                     match acc.checked_mul(&i) {
                         Some(new) => acc = new,
                         None => {
-                            return Err(MathLibError::NumberTheoryErr(format!(
+                            return Err(NumberTheoryErr::Overflow(format!(
                                 "Factorial overflow at: {}",
                                 acc
                             )))
@@ -35,7 +35,7 @@ macro_rules! impl_factorial {
     };
 }
 
-impl_factorial!(Integer);
+factorial!(Integer);
 
 #[cfg(test)]
 mod tests {

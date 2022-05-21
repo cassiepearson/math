@@ -2,7 +2,7 @@
 use crate::general::numbers::Integer;
 
 #[macro_export]
-macro_rules! impl_multiples {
+macro_rules! multiples {
     ($t: ident) => {
         /// Multiples
         ///
@@ -74,7 +74,7 @@ macro_rules! impl_multiples {
     };
 }
 
-impl_multiples!(Integer);
+multiples!(Integer);
 
 #[cfg(test)]
 mod tests {

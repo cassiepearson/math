@@ -14,7 +14,7 @@ pub enum NumParity {
 }
 
 #[macro_export]
-macro_rules! impl_parity {
+macro_rules! parity {
     ($t: ident) => {
         impl<T> Parity<T> for T
         where
@@ -46,7 +46,7 @@ macro_rules! impl_parity {
         }
     };
 }
-impl_parity!(Integer);
+parity!(Integer);
 
 #[cfg(test)]
 mod tests {
